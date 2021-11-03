@@ -21,9 +21,8 @@ class Filegetter:
         and could be: G - GPS, R - GLONASS, E - BeiDou, 
         S - SBAS, J - QZSS, I - IRNSS 
         '''
-        s.call(['cd', self.path], shell=True)
-        s.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()])
+        s.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
     
 
     def _rnx2version2(self, name):
-        s.call([self.program, '-finp', name, '-fout', '::RX2::', '--version_out 2']) 
+        s.call([self.program, '-finp', name, '-fout', '::RX2:: --version_out 2'], cwd = self.path) 
