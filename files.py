@@ -1,6 +1,6 @@
 import os
 import sys
-import subprocess as s
+import subprocess as sub
 
 class Filegetter:
     def __init__(self, path):
@@ -15,14 +15,14 @@ class Filegetter:
         return names
 
     def _21o2rnx(self, name, sats= 'GREC'):
-
         '''
         sats must be a continuous string of characters of expecting satelities 
         and could be: G - GPS, R - GLONASS, E - BeiDou, 
         S - SBAS, J - QZSS, I - IRNSS 
         '''
-        s.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
-    
+        sub.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
 
-    def _rnx2version2(self, name):
-        s.call([self.program, '-finp', name, '-fout', '::RX2:: --version_out 2'], cwd = self.path) 
+    def _rnx2version2(self, name2):
+
+        sub.call([self.program, '-finp', name2, ' -fout ::RX2:: --version_out 2 '], cwd = self.path) 
+
