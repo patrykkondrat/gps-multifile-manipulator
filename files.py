@@ -1,6 +1,6 @@
 import os
 import sys
-import subprocess as sub
+import subprocess
 import shutil
 
 class Filegetter:
@@ -21,10 +21,10 @@ class Filegetter:
         and could be: G - GPS, R - GLONASS, E - BeiDou, 
         S - SBAS, J - QZSS, I - IRNSS 
         '''
-        sub.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
+        subprocess.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
 
     def _rnx2version2(self, name2):
-        sub.run([self.program, '-finp', name2, '-fout', '::RX2:: --version_out 2'], cwd = self.path) 
+        subprocess.call([self.program, '-finp', name2, '-fout', '::RX2:: --version_out 2'], cwd = self.path) 
 
     def copyf(self, destination):
         try:
