@@ -21,14 +21,16 @@ class Filegetter:
         and could be: G - GPS, R - GLONASS, E - BeiDou, 
         S - SBAS, J - QZSS, I - IRNSS 
         '''
-        subprocess.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
+        for i in name:
+            subprocess.call([self.program, '-finp', i, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
 
     def _rnx2version2(self, name2):
-        subprocess.call([self.program, '-finp', name2, '-fout', '::RX2:: --version_out 2'], cwd = self.path) 
+        for i in name2:
+            subprocess.call([self.program, '-finp', i, '-fout', '::RX2::POL,00', ' --version_out 2 '], cwd = self.path) 
 
-    def copyf(self, destination):
+    def copyf(self):
         try:
-            shutil.copy(os.getcwd() + '/' + self.program, destination)
+            shutil.copy(os.getcwd() + '/' + self.program, self.path)
             print('Copy file successfully')
         except shutil.SameFileError:
             print("Source and destination represents the same file.")
@@ -38,3 +40,10 @@ class Filegetter:
             print("Permission denied.")
         except:
             print("Error occurred while copying file.")
+    
+    def run(self):
+        self.copyf()
+        a = self.get_list_of(with_sufix='.21O')
+        self._21o2rnx(a)
+        b = self.get_list_of(with_sufix='.rnx') 
+        self._rnx2version2(b)
