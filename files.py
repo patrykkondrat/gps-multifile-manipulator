@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess as sub
+import shutil
 
 class Filegetter:
     def __init__(self, path):
@@ -23,6 +24,17 @@ class Filegetter:
         sub.call([self.program, '-finp', name, '-fout', '::RX3::POL,00', '-satsys', sats.upper()], cwd = self.path)
 
     def _rnx2version2(self, name2):
+        sub.run([self.program, '-finp', name2, '-fout', '::RX2:: --version_out 2'], cwd = self.path) 
 
-        sub.call([self.program, '-finp', name2, ' -fout ::RX2:: --version_out 2 '], cwd = self.path) 
-
+    def copyf(self, destination):
+        try:
+            shutil.copy(os.getcwd() + '/' + self.program, destination)
+            print('Copy file successfully')
+        except shutil.SameFileError:
+            print("Source and destination represents the same file.")
+        except IsADirectoryError:
+            print("Destination is a directory.")
+        except PermissionError:
+            print("Permission denied.")
+        except:
+            print("Error occurred while copying file.")
